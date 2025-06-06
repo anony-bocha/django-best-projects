@@ -1,0 +1,55 @@
+{% extends "home/base.html"%}
+{% block start %}
+<div class="container mt-5">
+
+
+    <table class="table table-striped">
+        <thead class="table">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">student_id</th>
+            <th scope="col">Department</th>
+            <th scope="col">student_name</th>
+            <th scope="col">student_email</th>
+            <th scope="col">student_age</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in queryset %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{student.student_id}}</td>
+            <td>{{student.department.department}}</td>
+            <td>{{student.student_name}}</td>
+            <td>{{student.student_email}}</td>
+            <td>{{student.student_age}}</td>
+        </tr>
+
+        {% endfor %}  
+        
+        <div class="pagination">
+            <span class="step-links">
+                {% if queryset.has_previous  %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ queryset.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
+                </span>
+
+                {% if queryset.has_next %}
+                    <a href="?page={{ queryset.next_page_number }}">next</a>
+                    <a href="?page={{ queryset.paginator.num_pages }}">last &raquo;</a>
+
+                {% endif %}
+            </span>
+        </div>
+            
+
+</div>
+
+
+
+{% endblock%}
