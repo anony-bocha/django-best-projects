@@ -1,7 +1,7 @@
 from faker import Faker
 import random
 from .models import Department, Student, StudentID
-
+from django.db.models import Sum
 fake = Faker()
 from .models import *
 def create_subject_marks(n):
@@ -47,3 +47,16 @@ def seed_db(n=10) -> None:
             )
     except Exception as e:
         print("Error while seeding:", e)
+
+
+def generate_report_card():
+    print('called')
+    ranks = Student.objects.annotate(marks = Sum('studentmarks__marks')).order_by('marks' , '-student_age')
+    i=1
+    for rank in ranks:
+        print(rank)
+        ReportCard.objects.create(
+            student = rank ,
+            student_rank = i
+        )
+        i = i + 1
