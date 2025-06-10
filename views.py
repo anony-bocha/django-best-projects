@@ -6,6 +6,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
 @login_required(login_url="/login/")
 def receipes(request):
     if request.method == "POST":
@@ -128,7 +134,7 @@ def get_students(request):
     return render(request , 'report/students.html', {'queryset' : page_obj})
 from .seed import generate_report_card
 def see_marks(request , student_id):
-    #generate_report_card()
+    
     queryset = SubjectMarks.objects.filter(student__student_id__student_id = student_id)
     total_marks= queryset.aggregate(total_marks = Sum('marks'))
     current_rank = -1
